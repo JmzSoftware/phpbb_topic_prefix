@@ -22,7 +22,7 @@ var $u_action;
 
       global $phpbb_container;
       $this->template = $phpbb_container->get('template');
-      
+
       $submit = $request->is_set_post('submit');
 
       if ($submit)
@@ -34,7 +34,6 @@ var $u_action;
          $config->set('prefix_enable', $request->variable('prefix_enable', 0));
 	 $config->set('prefixes_added', $request->variable('prefixes_added', ''));
 	 $config->set('forums_sel', implode(", ", $request->variable('forum_id', array(''), true)));
-
          trigger_error($user->lang['PREFIX_CONFIG_SAVED'] . adm_back_link($this->u_action));
       }
       $template->assign_vars(array(
