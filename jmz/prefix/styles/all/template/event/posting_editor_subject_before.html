@@ -1,0 +1,54 @@
+<!-- IF S_PREFIX_ENABLED -->
+<script>
+var prefixArray = new Array();
+function add_text(data)
+{
+	var subjectLineValue = document.getElementById("subject").value;
+	var subjectLine = document.getElementById("subject");
+	var arrayLength = prefixArray.length;
+	var finish = false;
+	for (var i = 0; i < arrayLength; i++)
+	{
+		if (subjectLineValue.indexOf(prefixArray[i]) !== -1)
+		{
+			subjectLine.value = subjectLineValue.replace(prefixArray[i], data.value);
+			finish = true;
+			break;
+		}
+	}
+	if (!finish)
+	{
+		if (subjectLineValue == '')
+                {
+                        subjectLine.value = data.value + "\xa0";
+                }
+		else
+		{
+                        subjectLine.value = data.value + subjectLine.value + "\xa0";
+                }
+	}
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+	var x = document.getElementById("prefix"); 
+	for (i = 0; i < x.length; i++) { 
+    		prefixArray.push(x.options[i].text);
+	}
+}, false);
+
+</script>
+<dl>
+	<dt>
+		<label for="prefix">
+			Select topic:
+		</label>
+		<dd>
+			<select name="prefix" id="prefix" onchange="add_text(this);">
+				<!-- BEGIN prefixes -->
+				<option value="{prefixes.VALUE}">{prefixes.NAME}</option>
+				<!-- END prefixes -->
+			</select>
+		</dd>
+	</dt>
+</dl>
+<!-- ENDIF -->
