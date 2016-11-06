@@ -32,10 +32,13 @@ class listener implements EventSubscriberInterface
 
 	protected $template;
 
-	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template)
+	protected $user;
+
+	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user)
 	{
 		$this->config   = $config;
 		$this->template = $template;
+		$this->user	= $user;
 	}
 
 	public function load_language_on_setup($event)
@@ -75,9 +78,7 @@ class listener implements EventSubscriberInterface
 			}
 			if (!$bFound) {
 				$error          = $event['error'];
-				$error          = array(
-					'blahblah'
-				);
+				$error          = array($this->user->lang['PREFIX_ERROR']);
 				$event['error'] = $error;
 			}
 		}
