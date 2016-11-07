@@ -51,42 +51,45 @@ class listener implements EventSubscriberInterface
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
-	function forum_allowed($event)
+	function forum_forced($id)
 	{
 		$array   = explode(', ', $this->config['forums_sel']);
-		$allowed = false;
+		$forum_forced = false;
 		foreach ($array as $value) {
-			if ($value == $event['forum_id']) {
-				$allowed = true;
+			if ($value == $id) {
+				$forum_forced = true;
 			}
 		}
-		return $allowed;
+		return $forum_forced;
 	}
 
 	function force_prefix($event)
 	{
+		$forced = $this->forum_allowed($event['forum_id']);
 		$post_data_var = $event['post_data'];
-		if ($event['mode'] == 'post' || ($event['mode'] == 'edit' && $post_data_var['topic_first_post_id'] == $post_data_var['post_id']) && $this->forum_allowed()) {
-			$prefix  = $this->config['prefixes_added'];
-			$aPrefix = explode("\n", $prefix);
-			$bFound  = false;
-			foreach ($aPrefix as $sPrefix) {
-				if (strpos($post_data_var['post_subject'], $sPrefix) === 0) {
-					$bFound = true;
-					break;
+		if ($forced) {
+			if ($event['mode'] == 'post' || ($event['mode'] == 'edit' && $post_data_var['topic_first_post_id'] == $post_data_var['post_id'])) {
+				$prefix  = $this->config['prefixes_added'];
+				$aPrefix = explode("\n", $prefix);
+				$found  = false;
+				foreach ($aPrefix as $sPrefix) {
+					if (strpos($post_data_var['post_subject'], $sPrefix) === 0) {
+						$found = true;
+						break;
+					}
 				}
-			}
-			if (!$bFound) {
-				$error          = $event['error'];
-				$error          = array($this->user->lang['PREFIX_ERROR']);
-				$event['error'] = $error;
+				if (!$found) {
+					$error          = $event['error'];
+					$error          = array($this->user->lang['PREFIX_ERROR']);
+					$event['error'] = $error;
+				}
 			}
 		}
 	}
 
 	function show_prefixes($event)
 	{
-		if ($this->config['prefix_enable'] && $this->forum_allowed($event) && $event['mode'] != 'reply') {
+		if ($this->config['prefix_enable'] && $this->forum_allowed($event['forum_id']) && $event['mode'] != 'reply') {
 			$prefixes    = $this->config['prefixes_added'];
 			$prefixArray = explode("\n", $prefixes);
 			$this->template->assign_vars(array(
