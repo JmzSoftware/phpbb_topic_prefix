@@ -9,15 +9,14 @@
 
 if (!defined('IN_PHPBB'))
 {
-   exit;
+	exit;
 }
-if (empty($lang) || !is_array($lang))
-{
-   $lang = array();
-}
+	if (empty($lang) || !is_array($lang))
+	{
+		$lang = array();
+	}
 
 $lang = array_merge($lang, array(
-   'ACP_PREFIX'         => 'Jmz Prefix',
-   'PREFIX_CONFIG'      => 'Jmz Prefix Settings',
+	'ACP_PREFIX'	=> 'Jmz Prefix',
+	'PREFIX_CONFIG'	=> 'Jmz Prefix Settings',
 ));
-

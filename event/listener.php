@@ -55,8 +55,10 @@ class listener implements EventSubscriberInterface
 	{
 		$array   = explode(', ', $this->config['forums_sel']);
 		$forum_forced = false;
-		foreach ($array as $value) {
-			if ($value == $id) {
+		foreach ($array as $value)
+		{
+			if ($value == $id)
+			{
 				$forum_forced = true;
 			}
 		}
@@ -67,18 +69,23 @@ class listener implements EventSubscriberInterface
 	{
 		$forced = $this->forum_allowed($event['forum_id']);
 		$post_data_var = $event['post_data'];
-		if ($forced) {
-			if ($event['mode'] == 'post' || ($event['mode'] == 'edit' && $post_data_var['topic_first_post_id'] == $post_data_var['post_id'])) {
+		if ($forced)
+		{
+			if ($event['mode'] == 'post' || ($event['mode'] == 'edit' && $post_data_var['topic_first_post_id'] == $post_data_var['post_id']))
+			{
 				$prefix  = $this->config['prefixes_added'];
 				$aPrefix = explode("\n", $prefix);
 				$found  = false;
-				foreach ($aPrefix as $sPrefix) {
-					if (strpos($post_data_var['post_subject'], $sPrefix) === 0) {
+				foreach ($aPrefix as $sPrefix)
+				{
+					if (strpos($post_data_var['post_subject'], $sPrefix) === 0)
+					{
 						$found = true;
 						break;
 					}
 				}
-				if (!$found) {
+				if (!$found)
+				{
 					$error          = $event['error'];
 					$error          = array($this->user->lang['PREFIX_ERROR']);
 					$event['error'] = $error;
@@ -89,13 +96,15 @@ class listener implements EventSubscriberInterface
 
 	function show_prefixes($event)
 	{
-		if ($this->config['prefix_enable'] && $this->forum_allowed($event['forum_id']) && $event['mode'] != 'reply') {
+		if ($this->config['prefix_enable'] && $this->forum_allowed($event['forum_id']) && $event['mode'] != 'reply')
+		{
 			$prefixes    = $this->config['prefixes_added'];
 			$prefixArray = explode("\n", $prefixes);
 			$this->template->assign_vars(array(
 				'S_PREFIX_FORUMS' => $prefixArray
 			));
-			for ($i = 0; $i < count($prefixArray); $i++) {
+			for ($i = 0; $i < count($prefixArray); $i++)
+			{
 				$this->template->assign_block_vars('prefixes', array(
 					'NAME' => $prefixArray[$i],
 					'VALUE' => $prefixArray[$i]
@@ -104,7 +113,9 @@ class listener implements EventSubscriberInterface
 			$this->template->assign_vars(array(
 				'S_PREFIX_ENABLED' => true
 			));
-		} else {
+		}
+		else
+		{
 			$this->template->assign_vars(array(
 				'S_PREFIX_ENABLED' => false
 			));
