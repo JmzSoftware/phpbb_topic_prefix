@@ -20,8 +20,13 @@
       <dd><label><textarea name="prefixes_added">{PREFIXES_ADDED}</textarea></label></dd>
    </dl>
    <dl>
-      <dt><label for="forum">{L_LOOK_UP_FORUM}{L_COLON}</label></dt>
-      <dd><select id="forum" name="forum_id[]" multiple="multiple" size="10">{S_FORUM_OPTIONS}</select></dd>
+      <dt><label for="forum">{L_LOOK_UP_FORUM}{L_COLON}</label></dt>      
+      <dd><select name="forum_id[]" id="forum" multiple="multiple" size="10">
+        <!-- BEGIN selected -->
+        <option <!-- IF selected.SELECTED --> selected="selected"<!-- ENDIF --> >{selected.NAME}</option>
+        <!-- END selected -->
+      </select>
+      </dd>
    </dl>
    <p class="submit-buttons">
       <input type="hidden" name="action" value="save" />
