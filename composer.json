@@ -3,7 +3,7 @@
     "type": "phpbb-extension",
     "description": "Add prefix to topics.",
     "homepage": "https://www.jmzsoftware.com",
-    "version": "1.0.0-dev",
+    "version": "1.0.0",
     "time": "2016-11-2",
     "license": "GPL-2.0",
     "authors": [
@@ -20,6 +20,12 @@
         "display-name": "Jmz Prefix",
         "soft-require": {
             "phpbb/phpbb": ">=3.1.4,<3.2.0@dev"
-        }
+        },
+	"version-check": {
+		"ssl": true,
+		"host": "jmzsoftware.github.io",
+		"directory": "/topic_prefix",
+		"filename": "/prefix.json"
+	}
     }
 }
