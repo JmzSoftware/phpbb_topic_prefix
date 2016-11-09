@@ -71,10 +71,21 @@ class prefix_module
 				array('forum_name', 'forum_id'));
 		foreach ($forumArray as $item)
 		{
-			$template->assign_block_vars('selected', array(
-				'NAME'		=> $item['forum_name'],
-				'SELECTED'	=> $this->check_select($item['forum_name'], $config['forums_sel']),
-			));
+			if (isset($config['forums_sel']))
+			{
+				$template->assign_block_vars('selected', array(
+					'NAME'		=> $item['forum_name'],
+					'VALUE'		=> $item['forum_id'],
+					'SELECTED'	=> $this->check_select($item['forum_id'], $config['forums_sel']),
+					));
+			}
+			else
+			{
+				$template->assign_block_vars('selected', array(
+					'NAME'	=> $item['forum_name'],
+					'VALUE'	=> $item['forum_id'],
+					));
+			}
 		}
 	}
 }

@@ -57,6 +57,8 @@ class listener implements EventSubscriberInterface
 		$forum_forced = false;
 		foreach ($array as $value)
 		{
+			error_log($value);
+			error_log("id: " . $id);
 			if ($value == $id)
 			{
 				$forum_forced = true;
@@ -67,7 +69,7 @@ class listener implements EventSubscriberInterface
 
 	function force_prefix($event)
 	{
-		$forced = $this->forum_allowed($event['forum_id']);
+		$forced = $this->forum_forced($event['forum_id']);
 		$post_data_var = $event['post_data'];
 		if ($forced)
 		{
@@ -96,7 +98,7 @@ class listener implements EventSubscriberInterface
 
 	function show_prefixes($event)
 	{
-		if ($this->config['prefix_enable'] && $this->forum_allowed($event['forum_id']) && $event['mode'] != 'reply')
+		if ($this->config['prefix_enable'] && $this->forum_forced($event['forum_id']) && $event['mode'] != 'reply')
 		{
 			$prefixes    = $this->config['prefixes_added'];
 			$prefixArray = explode("\n", $prefixes);
