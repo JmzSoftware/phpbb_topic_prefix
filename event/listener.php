@@ -57,8 +57,6 @@ class listener implements EventSubscriberInterface
 		$forum_forced = false;
 		foreach ($array as $value)
 		{
-			error_log($value);
-			error_log("id: " . $id);
 			if ($value == $id)
 			{
 				$forum_forced = true;
